@@ -131,7 +131,12 @@ namespace CopyCutPaste
                 if( previousState.IsValid )
                 {
                     historyBuffer.StepBack( );
-                    _ApplyState( previousState );
+                    bool exists = _ApplyState( previousState );
+                    if( !exists )
+                    {
+                        historyBuffer.RemoveCurrent( );
+                        _BackOneLevel( ); // Do it again
+                    }
                 }
             }
 
@@ -141,7 +146,12 @@ namespace CopyCutPaste
                 if( forwardState.IsValid )
                 {
                     historyBuffer.StepForward( );
-                    _ApplyState( forwardState );
+                    bool exists = _ApplyState( forwardState );
+                    if( !exists )
+                    {
+                        historyBuffer.RemoveCurrent( );
+                        _ForwardOneLevel( ); // Do it again
+                    }
                 }
             }
 
@@ -166,24 +176,34 @@ namespace CopyCutPaste
                 }
             }
 
-            static void _ApplyState( SelectionHistory.Item state )
+            static bool _ApplyState( SelectionHistory.Item state )
             {
                 if( state.isSearch )
                 {
                     // Restore a search result
                     if( DebugLog ) Debug.Log( "Back to search " + state.s );
                     ShowSearchQuery( state.s );
-                    historyBuffer.StepBack( );
+                    return true;
                 }
                 else
                 {
                     if( DebugLog ) Debug.Log( "Back to folder " + state.s );
                     ShowSearchQuery( null );
-                    ShowFolderContents( state.s, true );
 
-                    // If backing
-                    // Also make selection on last object in that state
-                    Selection.activeInstanceID = state.lastSelectedInstancId;
+                    // When going back to folder, it could have deleted
+                    if( GetFolderInstanceId( state.s ) != 0 )
+                    {
+                        ShowFolderContents( state.s, true );
+
+                        // If backing
+                        // Also make selection on last object in that state
+                        Selection.activeInstanceID = state.lastSelectedInstancId;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -252,10 +272,6 @@ namespace CopyCutPaste
 
             private static int GetFolderInstanceId( string path )
             {
-                object objProjectBrowser = GetBrowserMethod.Invoke( null, null );
-                if( objProjectBrowser == null )
-                    return 0;
-
                 if( !AssetDatabase.IsValidFolder( path ) )
                     return 0;
 
@@ -266,12 +282,16 @@ namespace CopyCutPaste
                 return f.GetInstanceID( );
 
 #if false
-            if( _projectBrowserGetFolderInstanceId == null )
-                _projectBrowserGetFolderInstanceId = ProjectBrowserType.GetMethod( "GetFolderInstanceId", BindingFlags.Static | BindingFlags.NonPublic );
+                object objProjectBrowser = GetBrowserMethod.Invoke( null, null );
+                if( objProjectBrowser == null )
+                    return 0;
 
-            object[] args = new object[] { path };
-            int id = (int)_projectBrowserGetFolderInstanceId.Invoke( objProjectBrowser, args );
-            return id;
+                if( _projectBrowserGetFolderInstanceId == null )
+                    _projectBrowserGetFolderInstanceId = ProjectBrowserType.GetMethod( "GetFolderInstanceId", BindingFlags.Static | BindingFlags.NonPublic );
+
+                object[] args = new object[] { path };
+                int id = (int)_projectBrowserGetFolderInstanceId.Invoke( objProjectBrowser, args );
+                return id;
 #endif
             }
 

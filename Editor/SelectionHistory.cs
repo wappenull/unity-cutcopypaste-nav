@@ -128,6 +128,12 @@ namespace CopyCutPaste
             return default;
         }
 
+        public void RemoveCurrent( )
+        {
+            _history.RemoveAt( currentPointer );
+            currentPointer = Mathf.Clamp( currentPointer, 0, _history.Count - 1 );
+        }
+
         // In normal operation, currentPointer will always point to last index
 
         // Initial
