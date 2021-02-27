@@ -98,7 +98,7 @@ namespace CopyCutPaste
                 _history.Add( i );
                 currentPointer = _history.Count - 1;
 
-                Debug.Log( $"Push {i}\nHistory now have {_history.Count} item" );
+                //Debug.Log( $"Push {i}\nHistory now have {_history.Count} item" );
             }
             else if( i.isSearch == false )
             {

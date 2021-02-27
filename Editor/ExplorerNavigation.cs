@@ -16,7 +16,7 @@ namespace CopyCutPaste
     {
         static class ExplorerNavigation
         {
-            const bool DebugLog = false;
+            internal static bool DebugLog = false;
 
             /* Explorer navigation extension ///////////////////////////////*/
 
