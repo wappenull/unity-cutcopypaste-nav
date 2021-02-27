@@ -1,11 +1,10 @@
 {
   "name": "com.talecrafter-wappen.copycutpaste",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "File CutCopyPaste + Navigation",
   "description": "Allow to use Cut, Copy, Paste, Back, Forward, Up one level keyboard shortcut in project explorer window.",
   "unity": "2018.1",
   "unityRelease": "1f1",
-  "dependencies": { },
   "keywords": [
     "cut",
     "tools",
@@ -14,7 +13,8 @@
     "back"
   ],
   "author": {
-    "name": "Stephan Hövelbrinks + Wappen",
+    "name": "Stephan H\u00f6velbrinks + Wappen",
     "url": "https://twitter.com/talecrafter | https://github.com/wappenull/"
-  }
+  },
+  "type": "tool"
 }

@@ -16,6 +16,8 @@ namespace CopyCutPaste
     {
         static class ExplorerNavigation
         {
+            const bool DebugLog = false;
+
             /* Explorer navigation extension ///////////////////////////////*/
 
             // Most reference are taken from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/ProjectBrowser.cs
@@ -147,7 +149,7 @@ namespace CopyCutPaste
             {
                 if( TryGetActiveFolderPath( out string currentPath ) )
                 {
-                    Debug.Log( "Currrent is " + currentPath );
+                    if( DebugLog ) Debug.Log( "Currrent is " + currentPath );
 
                     string up1 = ProjectWindowUtil.GetContainingFolder( currentPath );
                     if( AssetDatabase.IsValidFolder( up1 ) )
@@ -156,7 +158,7 @@ namespace CopyCutPaste
                         Selection.activeObject = upObject;
                         EditorUtility.FocusProjectWindow( );
                         //EditorGUIUtility.PingObject( upObject ); // Also ping it for annoyance
-                        Debug.Log( "Up parent level" );
+                        if( DebugLog ) Debug.Log( "Up parent level" );
 
                         // Also manually record this action
                         RecordCurrentState( );
@@ -169,13 +171,13 @@ namespace CopyCutPaste
                 if( state.isSearch )
                 {
                     // Restore a search result
-                    Debug.Log( "Back to search " + state.s );
+                    if( DebugLog ) Debug.Log( "Back to search " + state.s );
                     ShowSearchQuery( state.s );
                     historyBuffer.StepBack( );
                 }
                 else
                 {
-                    Debug.Log( "Back to folder " + state.s );
+                    if( DebugLog ) Debug.Log( "Back to folder " + state.s );
                     ShowSearchQuery( null );
                     ShowFolderContents( state.s, true );
 
