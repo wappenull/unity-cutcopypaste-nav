@@ -3,9 +3,21 @@
 * Allows you to do Windows explorer-like navigation, Back (Alt+Left) Forward (Alt+Right) Up one level (Alt+Up) in Unity project view, aka project explorer window.
 * **I'm too lazy to record cool gif to demonstrate this, I hope you get the idea.**
 ## Install
+* Make sure you have git client installed on your PC
+  * If you are using this method for team project git, everyone on your team should have git client or they will have warning message on opening a project.
+  * Specialized git client such as bit bucket / source tree **does not** counted as git client by Unity editor, etc. And still get warning.
+  * Install using direct method instead if you are not sure.
 * From Unity, go to Window-> Package manager
-* Plus button on upper left (?), choose from git URL (Make sure you have git client installed on your PC)
+* Plus button on upper left (?), choose from git URL
 * Enter https://github.com/wappenull/unity-cutcopypaste-nav.git
+* Done, go ahead, and try it.
+## Install (Direct method)
+* This will install as local package. 
+  * Without use and need of git client on PC. 
+  * Difference with git method is this wont be able to update/auto-update via package manager window.
+* Download this repo.
+* Extract content to `"YourUnityProject/Packages/com.talecrafter-wappen.copycutpaste"`
+* Effectively, **package.json** file will be positioned at `"YourUnityProject/Packages/com.talecrafter-wappen.copycutpaste/package.json"`
 * Done, go ahead, and try it.
 ## Known issue
 * Nav feature: is explictly for two-column mode only. CHECKMATE! one-column-er!
