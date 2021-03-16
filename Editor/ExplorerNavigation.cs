@@ -29,29 +29,6 @@ namespace CopyCutPaste
             {
                 SelectionHistory.Item state = GetCurrentProjectWindowState( );
                 historyBuffer.PushIfUniqueOrUpdateLastSelectionContent( state, Selection.activeInstanceID ); // If we are on same state, send current selection item in this state
-
-#if false
-			    // Do not record empty or multiple selection (probably from search result)
-			    if( Selection.activeObject == null || Selection.instanceIDs.Length > 1 )
-				    return;
-
-                // Only check folder if it changed
-                string path = AssetDatabase.GetAssetPath( Selection.activeInstanceID );
-			    if( string.IsNullOrEmpty( path ) )
-				    return;
-
-			    if( ProjectWindowUtil.IsFolder( Selection.activeInstanceID ) )
-			    {
-				    historyBuffer.PushIfUnique( path );
-			    }
-			    else
-			    {
-				    // If it is file within folder, such as Assets/Folder1/Folder2/file.xxx
-				    // Record Assets/Folder1/Folder2
-				    string parentFolder = ProjectWindowUtil.GetContainingFolder( path );
-				    historyBuffer.PushIfUnique( parentFolder );
-			    }
-#endif
             }
 
             static string m_LastSearch;
@@ -280,19 +257,6 @@ namespace CopyCutPaste
                     return 0;
 
                 return f.GetInstanceID( );
-
-#if false
-                object objProjectBrowser = GetBrowserMethod.Invoke( null, null );
-                if( objProjectBrowser == null )
-                    return 0;
-
-                if( _projectBrowserGetFolderInstanceId == null )
-                    _projectBrowserGetFolderInstanceId = ProjectBrowserType.GetMethod( "GetFolderInstanceId", BindingFlags.Static | BindingFlags.NonPublic );
-
-                object[] args = new object[] { path };
-                int id = (int)_projectBrowserGetFolderInstanceId.Invoke( objProjectBrowser, args );
-                return id;
-#endif
             }
 
             static MethodInfo _projectBrowserSetSearch;

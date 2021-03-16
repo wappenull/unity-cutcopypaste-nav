@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace CopyCutPaste
 {
+    // TODO: This would help history (static var) to not removed everytime script refresh 
+    // But it is story for another day
+#if false
     // Copied from https://github.com/acoppes/unity-history-window
     internal class EditorTemporaryMemory : MonoBehaviour
     {
@@ -44,5 +47,6 @@ namespace CopyCutPaste
         [SerializeField]
         public SelectionHistory selectionHistory = new SelectionHistory();
     }
+#endif
 
 }
